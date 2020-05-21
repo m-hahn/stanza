@@ -186,7 +186,16 @@ class Parser(nn.Module):
             loss /= wordchars.size(0) # number of words
         else:
             loss = 0
-            preds.append(F.log_softmax(unlabeled_scores, 2).detach().cpu().numpy())
+            unlabeledScoresSoftmax = F.log_softmax(unlabeled_scores, 2).detach().cpu()
+            preds.append(unlabeledScoresSoftmax.numpy())
             preds.append(deprel_scores.max(3)[1].detach().cpu().numpy())
-
+    #        print(unlabeledScoresSoftmax.size(), deprel_scores.size())
+            depRelScoresSoftmax = F.softmax(deprel_scores, 3).detach().cpu()
+   #         print(unlabeledScoresSoftmax.size(), depRelScoresSoftmax.size())
+            depRelScoresAveragedHeads = (unlabeledScoresSoftmax.exp().unsqueeze(3) * depRelScoresSoftmax).sum(dim=2)
+#            print(depRelScoresAveragedHeads.size())
+ #           print(depRelScoresAveragedHeads.max())
+  #          assert False
+            preds.append(depRelScoresAveragedHeads.detach().cpu().numpy())
+#            assert False
         return loss, preds

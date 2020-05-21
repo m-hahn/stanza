@@ -41,7 +41,7 @@ class DepparseProcessor(UDProcessor):
         for i, b in enumerate(batch):
             preds += self.trainer.predict(b)
         preds = unsort(preds, batch.data_orig_idx)
-        batch.doc.set([doc.HEAD, doc.DEPREL], [y for x in preds for y in x])
+        batch.doc.set([doc.HEAD, doc.DEPREL, doc.DEPREL_PROBS], [y for x in preds for y in x])
         # build dependencies based on predictions
         for sentence in batch.doc.sentences:
             sentence.build_dependencies()

@@ -19,6 +19,7 @@ XPOS = 'xpos'
 FEATS = 'feats'
 HEAD = 'head'
 DEPREL = 'deprel'
+DEPREL_PROBS = 'deprel_probs'
 DEPS = 'deps'
 MISC = 'misc'
 NER = 'ner'
@@ -587,6 +588,7 @@ class Word:
         self.feats = word_entry.get(FEATS, None)
         self.head = word_entry.get(HEAD, None)
         self.deprel = word_entry.get(DEPREL, None)
+        self.deprel_probs = word_entry.get(DEPREL_PROBS, None)
         self.deps = word_entry.get(DEPS, None)
         self.misc = word_entry.get(MISC, None)
 
